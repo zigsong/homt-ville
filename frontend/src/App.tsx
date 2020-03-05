@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import YogaList from './components/YogaList';
+import Sidebar from './components/Sidebar';
 
 function App() {
-  return <YogaList />;
+  return (
+    <Fragment>
+      <Sidebar />
+      {/* <YogaList /> */}
+    </Fragment>
+  )  
 }
 
 export default App;

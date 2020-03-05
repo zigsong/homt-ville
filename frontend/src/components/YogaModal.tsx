@@ -14,3 +14,5 @@ export default function YogaModal({ name, description, images }: ModalProps) {
     )
     
 }
+
+// *** react bootstrap의 Carousel 이용하기 

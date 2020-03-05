@@ -3,7 +3,7 @@ from django.db import models
 class Branch(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
-    images = models.ImageField(upload_to='yoga_image') # upload_to="yoga_image" (prefix to image url)
+    images = models.ImageField() # upload_to="yoga_image" (prefix to image url)
 
     def __str__(self):
         return self.name
