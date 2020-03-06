@@ -1,27 +1,41 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { makeStyles } from '@material-ui/core/styles';
 import YogaList from './YogaList';
+import styled from 'styled-components';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
+const Title = styled.h1`
+    font-size: 2.5em;
+    text-align: center;
+    font-weight: 600;
+    color: #1f3b51;
+    // align-items: center;
+    margin: 10px 0px 10px 0px; // 땜빵
+`;
+
+const useStyles = makeStyles({
+  headerContainer: {
+    display: 'flex',
+    alignContent: 'center', // 왜 작동 안 하는지? (vertical center)
+    justifyContent: 'center', // 이게 문제?
+    padding: 0,
+    backgroundColor: 'white',
+    height: '80px'
+  },
+});
+
 export default function Sidebar() {
+
+  const classes = useStyles();
+
   return (
     <Layout>
-      {/* <Header className="header">
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          style={{ lineHeight: '64px' }}
-        >
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
-        </Menu>
-      </Header> */}
+      <Header className={classes.headerContainer}>
+        <Title>HOMT-VILLE</Title>
+      </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
           <Menu
@@ -31,7 +45,7 @@ export default function Sidebar() {
             style={{ height: '100%', borderRight: 0 }}
           >
             <SubMenu
-              key="sub1"
+              key="sub1"  
               title={
                 <span>
                   {/* <UserOutlined /> */}
@@ -90,3 +104,5 @@ export default function Sidebar() {
     </Layout>
   );
 }
+
+

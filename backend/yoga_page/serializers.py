@@ -5,7 +5,6 @@ from .models import Branch, Video
 class BranchSerializer(serializers.ModelSerializer): 
     # images = serializers.ImageField(use_url=True)
     # images = serializers.HyperlinkedIdentityField(view_name='yoga_page:branch-detail', read_only=True)
-    
     class Meta:
         model = Branch
         fields = '__all__'

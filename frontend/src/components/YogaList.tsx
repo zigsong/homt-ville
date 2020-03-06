@@ -12,15 +12,17 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import { Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Modal } from 'antd';
 import YogaModal from './YogaModal';
+import YogaCarousel from './YogaCarousel'
 
 export default function YogaList() {
     const yogaList = useSelector((state: RootState) => state.yogaReducer.yogas)
     const dispatch = useDispatch();
-    // const [yogaData, setYogaData] = useState(JSON.stringify(yogaList));
-    // console.log(yogaList);
     const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
-    console.log(dataSet.map(yoga => yoga.name));
+    
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: {} })
 
     const IMAGE_URL = 'http://127.0.0.1:8000/static' // 이미지 불러오기 너무 땜빵
 
@@ -39,48 +41,75 @@ export default function YogaList() {
         dispatch(requestList());
     }, [])
 
+    const cardClick = (name: string, description: string, images: object) => {
+        setModalVisible(true);
+        setModalInfo({
+            name: name,
+            description: description,
+            images: images, 
+        })
+    }
+
     return (
         <Fragment>
-            <Title>HOMT-VILLE</Title>
+            <CardContainer>
             {dataSet.map(yoga => 
-                <Card className={classes.root} style={{ margin: 20}}>
-                    <CardActionArea>
-                    {
-                        // dataSet ? 
-                            <CardMedia
-                            className={classes.media}
-                            image={`${IMAGE_URL}/${yoga.images}`}
-                            title="Yoga Image"
-                            />
-                        // : 
-                        // <Spinner animation="border" />
-                    }
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                        {yoga.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                        {yoga.description}
-                        </Typography>
-                    </CardContent>
+            
+                <Card className={classes.root} style={{ margin: 20 }}>
+                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
+                        {
+                            // dataSet ? 
+                                <CardMedia
+                                className={classes.media}
+                                image={`${IMAGE_URL}/${yoga.images}`}
+                                title="Yoga Image"
+                                />
+                            // : 
+                            // <Spinner animation="border" />
+                        }
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                            {yoga.name}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                            {yoga.description}
+                            </Typography>
+                        </CardContent>
                     </CardActionArea>
-                    <CardActions>
-                    <Button size="small" color="primary">
-                        Like
-                    </Button>
-                    <Button size="small" color="primary">
-                        LET'S GO
-                    </Button>
+                    <CardActions style={{ display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button size="small" color="primary" style={{ flex: 'none'}}>
+                            Like
+                        </Button>
+                        <Button size="small" color="primary" style={{ flex: 'none' }} onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
+                            LET'S GO
+                        </Button> 
                     </CardActions>
                 </Card>
             )}
+            </CardContainer>
+
+            <div>
+                <Modal
+                    title={modalInfo.name}
+                    centered
+                    visible={modalVisible}
+                    onOk={() => setModalVisible(false)}
+                    okText="START"
+                    onCancel={() => setModalVisible(false)}
+                >
+                    <YogaCarousel images={modalInfo.images}/>
+                </Modal>
+            </div>
+            {/* <YogaModal isVisible={modalVisible} name={modalInfo.name} description={modalInfo.description} images={modalInfo.images} /> */}
         </Fragment>
     )
 }
 
-const Title = styled.h1`
-    font-size: 2.5em;
-    text-align: center;
-    font-weight: 600;
-    color: #1f3b51;
-`;
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`
+const CardContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`

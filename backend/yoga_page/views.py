@@ -7,7 +7,6 @@ from .serializers import BranchSerializer, VideoSerializer
 from django.http import Http404
 
 # POST는 서버(admin)으로만 진행
-
 class BranchList(APIView):
     def post(self, request, format=None):
         serializer = BranchSerializer(data=request.data)
