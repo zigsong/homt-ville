@@ -61,12 +61,12 @@ export default function YogaList() {
             {dataSet.map(yoga => 
             
                 <Card className={classes.root} style={{ margin: 20, flexShrink: 0 }}>
-                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
+                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.image)}>
                         {
                             // dataSet ? 
                                 <CardMedia
                                 className={classes.media}
-                                image={`${IMAGE_URL}/${yoga.images}`}
+                                image={`${IMAGE_URL}/${yoga.image}`}
                                 title="Yoga Image"
                                 />
                             // : 

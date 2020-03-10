@@ -1,14 +1,15 @@
 from rest_framework import serializers
-from .models import Branch, Video
-
-# image field 저장 위해 Hyperlinked 사용 -> 프론트에서 POST하는 경우에만 
+from .models import Branch, Images, Video
+class ImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Images
+        fields = ['branch', 'images',]
 class BranchSerializer(serializers.ModelSerializer): 
-    # images = serializers.ImageField(use_url=True)
-    # images = serializers.HyperlinkedIdentityField(view_name='yoga_page:branch-detail', read_only=True)
+    branch_images = ImagesSerializer(many=True, read_only=True)
     class Meta:
         model = Branch
-        fields = '__all__'
-        # fields = ['name', 'description', 'images']
+        # fields = '__all__'
+        fields = ['name', 'description', 'image', 'branch_images', ]
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:

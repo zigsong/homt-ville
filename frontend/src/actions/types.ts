@@ -11,10 +11,6 @@ export interface Yoga {
 }
 
 export interface YogaList {
-    // yogas: object
-    // yogas: Yoga[];
-    // yogas: Array<Yoga>
-    // yogas: Array<object>
     yogas: any
 }
 
