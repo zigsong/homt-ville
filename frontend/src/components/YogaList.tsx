@@ -1,7 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Link, Route, RouteComponentProps, useHistory } from 'react-router-dom';
 import { RootState } from '../reducers/index';
 import { requestList } from '../actions/yogaAction';
+import history from '../history';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -13,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 // import { Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Modal } from 'antd';
+import BaseLayout from './BaseLayout';
 import YogaModal from './YogaModal';
 import YogaCarousel from './YogaCarousel'
 
@@ -25,6 +28,8 @@ export default function YogaList() {
     const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: {} })
 
     const IMAGE_URL = 'http://127.0.0.1:8000/static' // 이미지 불러오기 너무 땜빵
+
+    // const history = useHistory();
 
     const useStyles = makeStyles({
         root: {
@@ -55,7 +60,7 @@ export default function YogaList() {
             <CardContainer>
             {dataSet.map(yoga => 
             
-                <Card className={classes.root} style={{ margin: 20 }}>
+                <Card className={classes.root} style={{ margin: 20, flexShrink: 0 }}>
                     <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
                         {
                             // dataSet ? 
@@ -81,7 +86,12 @@ export default function YogaList() {
                             Like
                         </Button>
                         <Button size="small" color="primary" style={{ flex: 'none' }} onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
+                            {/* <Link to={{
+                                pathname: `/yoga/${yoga.name}`,
+                                // query: 
+                            }} > */}
                             LET'S GO
+                            {/* </Link> */}
                         </Button> 
                     </CardActions>
                 </Card>
@@ -93,14 +103,14 @@ export default function YogaList() {
                     title={modalInfo.name}
                     centered
                     visible={modalVisible}
-                    onOk={() => setModalVisible(false)}
+                    onOk={() => history.push(`/yoga/${modalInfo.name}`)}
                     okText="START"
                     onCancel={() => setModalVisible(false)}
+                    style={{ width: '700px' }}
                 >
                     <YogaCarousel images={modalInfo.images}/>
                 </Modal>
             </div>
-            {/* <YogaModal isVisible={modalVisible} name={modalInfo.name} description={modalInfo.description} images={modalInfo.images} /> */}
         </Fragment>
     )
 }
@@ -112,4 +122,5 @@ const ButtonContainer = styled.div`
 const CardContainer = styled.div`
     display: flex;
     flex-direction: row;
+    overflow: scroll;
 `

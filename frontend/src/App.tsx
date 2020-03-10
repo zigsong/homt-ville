@@ -1,13 +1,22 @@
 import React, { Fragment } from 'react';
+import { Router, Route, RouteComponentProps } from 'react-router-dom';
+import history from './history';
+import BaseLayout from './components/BaseLayout';
 import YogaList from './components/YogaList';
-import Sidebar from './components/Sidebar';
+import YogaPage from './components/YogaPage';
+
+// interface AppProps {
+//   history: History
+// }
 
 function App() {
   return (
-    <Fragment>
-      <Sidebar />
+    <Router history={history}>
+      <BaseLayout />
       {/* <YogaList /> */}
-    </Fragment>
+      {/* <Route exact path="/" component={YogaList} />
+      <Route path="/yoga/:branch" component={YogaPage} /> */}
+    </Router>
   )  
 }
 

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Route, RouteProps } from 'react-router';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { makeStyles } from '@material-ui/core/styles';
 import YogaList from './YogaList';
+import YogaPage from './YogaPage';
+import history from '../history';
 import styled from 'styled-components';
 
 const { SubMenu } = Menu;
@@ -14,27 +17,33 @@ const Title = styled.h1`
     color: #1f3b51;
     // align-items: center;
     margin: 10px 0px 10px 0px; // 땜빵
+    cursor: pointer;
 `;
 
 const useStyles = makeStyles({
   headerContainer: {
     display: 'flex',
-    alignContent: 'center', // 왜 작동 안 하는지? (vertical center)
-    justifyContent: 'center', // 이게 문제?
+    alignContent: 'center',
+    justifyContent: 'center', 
     padding: 0,
     backgroundColor: 'white',
     height: '80px'
   },
 });
 
-export default function Sidebar() {
+interface LayoutProps extends RouteProps {
+  // component: React.ComponentType;
+  component: () => any;
+}
+
+export default function BaseLayout() {
 
   const classes = useStyles();
 
   return (
     <Layout>
       <Header className={classes.headerContainer}>
-        <Title>HOMT-VILLE</Title>
+        <Title onClick={() => history.push('/')}>HOMT-VILLE</Title>
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
@@ -97,7 +106,8 @@ export default function Sidebar() {
               minHeight: 280,
             }}
           >
-            <YogaList />
+            <Route exact path="/" component={YogaList} />
+            <Route path="/yoga/:branch" component={YogaPage} />
           </Content>
         </Layout>
       </Layout>
