@@ -32,6 +32,8 @@ def modify_input_for_multiple_files(branch, images):
     return dict
 class ImagesView(APIView):
     parser_classes = (MultiPartParser, FormParser)
+    # lookup_field = 'slug'
+    # serializer_class = ImagesSerializer
 
     def get_object(self, name):
         try:
@@ -41,12 +43,14 @@ class ImagesView(APIView):
 
     def get(self, request, name):
         image_set = self.get_object(name)
+        # image_set = Images.objects.filter(branch=name)
         serializer = ImagesSerializer(image_set, many=True)
         return Response(serializer.data)
         # JsonResponse를 쓰고 인자로 'safe=False' 넣어줄 수 있음
     
     def post(self, request, *args, **kwargs):
         branch = request.data['branch']
+        branch = request.branch
         images = dict((request.data).lists())['images']
         flag = 1
         arr = []
