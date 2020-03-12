@@ -67,6 +67,15 @@ MIDDLEWARE = [
 #     'localhost:3000/'
 # )
 
+# CORS_ORIGIN_ALLOW_ALL = 'ALL'
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+)
+
 ROOT_URLCONF = 'homt_ville.urls'
 
 TEMPLATES = [
