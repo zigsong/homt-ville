@@ -27,8 +27,9 @@ export default function YogaList() {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: {} })
 
-    const IMAGE_URL = 'http://127.0.0.1:8000/static'
-    // 이미지 불러오기 너무 땜빵 & 다시 올리면 파일명이 바뀌어서 제대로 안 불러와짐 -> 수정 필요
+    const IMAGE_URL = 'http://127.0.0.1:8000/static' // 이미지 불러오기 너무 땜빵
+
+    // const history = useHistory();
 
     const useStyles = makeStyles({
         root: {

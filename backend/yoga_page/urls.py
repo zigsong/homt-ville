@@ -9,6 +9,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', views.BranchList.as_view()),
     path('<slug:name>/', views.BranchDetail.as_view()), # request 함수에 name field를 넣어야 함
-    path('<slug:name>/images/', views.ImagesView.as_view()),
-    path('<slug:name>/videos/', views.VideoList.as_view()),
+    path('<slug:name>/images', views.ImagesView.as_view()),
+    path('<slug:name>/videos', views.VideoList.as_view()),
 ]

@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser # 추가 for Images
-from rest_framework.decorators import action
 from .models import Branch, Images, Video
 from .serializers import BranchSerializer, ImagesSerializer, VideoSerializer
 from django.http import Http404
@@ -69,10 +68,8 @@ class ImagesView(APIView):
             return Response(arr, status=status.HTTP_201_CREATED)
         else:
             return Response(arr, status=status.HTTP_400_BAD_REQUEST)
-
+        
 class BranchDetail(APIView):
-    # http_method_names = ['GET', 'PUT', 'PATCH', 'DELETE']
-
     def get_object(self, name): # request도 인자로?
         try:
             return Branch.objects.get(name=name)
@@ -84,22 +81,12 @@ class BranchDetail(APIView):
         serializer = BranchSerializer(branch)
         return Response(serializer.data)
 
-    def put(self, request, name, format=None): # 전체 수정? 
+    def put(self, request, name, format=None):
         branch = self.get_object(name)
         serializer = BranchSerializer(branch, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
- 
-    # 지금 PATCH만 안 되고 있음 
-    def patch(self, request, name): # 일부 수정 
-        branch = self.get_object(name)
-        serializer = BranchSerializer(branch, data=request.data, partial=True)
-        # return self.partial_update(request, *args, **kwargs)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, name, format=None):
