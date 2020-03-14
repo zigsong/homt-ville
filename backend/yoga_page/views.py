@@ -50,7 +50,7 @@ class ImagesView(APIView):
     
     def post(self, request, *args, **kwargs):
         branch = request.data['branch']
-        branch = request.branch
+        # branch = request.branch
         images = dict((request.data).lists())['images']
         flag = 1
         arr = []
@@ -87,6 +87,15 @@ class BranchDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def patch(self, request, name): # 일부 수정 
+        branch = self.get_object(name)
+        serializer = BranchSerializer(branch, data=request.data, partial=True)
+        # return self.partial_update(request, *args, **kwargs)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, name, format=None):
