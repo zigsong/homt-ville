@@ -1,18 +1,8 @@
 import { Yoga, YogaList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, YogaActionTypes } from '../actions/types';
 import { object } from 'prop-types';
 
-// type YogaList = {
-//     name: string,
-//     description: string
-// }
-
-// export interface YogaListState {
-//     // yogaList: YogaList[];
-//     yogaList: []
-// };
-
 const initialState: YogaList = {
-    yogas: [], // type을 정의하는 게 아니라 값을 정의하는 것임
+    yogas: [],
 };
 
 export function yogaReducer(state = initialState, action: YogaActionTypes): YogaList {

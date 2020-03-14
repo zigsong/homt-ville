@@ -14,7 +14,7 @@ class Branch(models.Model):
 
 class Images(models.Model):
     branch = models.ForeignKey(Branch, related_name='branch_images', on_delete=models.CASCADE, default=None)
-    images = models.ImageField(verbose_name='image')
+    images = models.ImageField(verbose_name='image', upload_to="yoga_images/") # 어차피 media로 올라가서 upload_to가 안 먹히는 듯 
     
     def __str__(self):
         return self.branch.name

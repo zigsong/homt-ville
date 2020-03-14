@@ -25,11 +25,9 @@ export default function YogaList() {
     const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
     
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: {} })
+    const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: [] })
 
-    const IMAGE_URL = 'http://127.0.0.1:8000/static' // 이미지 불러오기 너무 땜빵
-
-    // const history = useHistory();
+    const IMAGE_URL = 'http://127.0.0.1:8000' 
 
     const useStyles = makeStyles({
         root: {
@@ -44,9 +42,11 @@ export default function YogaList() {
 
     useEffect(() => {
         dispatch(requestList());
+        dataSet.map(yoga => console.log(yoga.name, yoga.image));
+        console.log('console working')
     }, [])
 
-    const cardClick = (name: string, description: string, images: object) => {
+    const cardClick = (name: string, description: string, images: []) => {
         setModalVisible(true);
         setModalInfo({
             name: name,
@@ -58,10 +58,9 @@ export default function YogaList() {
     return (
         <Fragment>
             <CardContainer>
-            {dataSet.map(yoga => 
-            
+            {dataSet.map(yoga =>             
                 <Card className={classes.root} style={{ margin: 20, flexShrink: 0 }}>
-                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.image)}>
+                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>
                         {
                             // dataSet ? 
                                 <CardMedia
@@ -85,13 +84,8 @@ export default function YogaList() {
                         <Button size="small" color="primary" style={{ flex: 'none'}}>
                             Like
                         </Button>
-                        <Button size="small" color="primary" style={{ flex: 'none' }} onClick={() => cardClick(yoga.name, yoga.description, yoga.images)}>
-                            {/* <Link to={{
-                                pathname: `/yoga/${yoga.name}`,
-                                // query: 
-                            }} > */}
+                        <Button size="small" color="primary" style={{ flex: 'none' }} onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>                          
                             LET'S GO
-                            {/* </Link> */}
                         </Button> 
                     </CardActions>
                 </Card>
