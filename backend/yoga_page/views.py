@@ -84,7 +84,6 @@ class ImagesView(APIView):
         images = request.FILES
         flag = 1
         arr = []
-        
 
 class VideoList(APIView):        
 
@@ -93,26 +92,36 @@ class VideoList(APIView):
             return Video.objects.filter(branch=name)
         except Video.DoesNotExist:
             raise Http404
-
-    def fetchData(self, name):
+    
+    def searchData(self, name):
         # YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
         branch = Branch.objects.get(name=name)
         searchkw = branch.translation
         API_KEY = 'AIzaSyBpu12_h2o-Rk8-W29YXJt4xyuA2UGJc3Q'
         response = requests.get(
-            'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
+            'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
             %(branch.translation, API_KEY)
         )
         videoData = response.json()
-        return videoData
+        videoID_list = []
+        for item in videoData.get('items'):
+            videoID_list.append(item['id']['videoId'])
+        return videoID_list # list로 반환됨 
 
-    def get(self, request, name, format=None): # name을 요가 이름으로 바꾸기
-        queryset = self.fetchData(name)
-        # serializer = VideoSerializer(queryset, many=True)
-        # return Response(serializer.data)
-        return queryset
+    def get(self, request, name, format=None):
+        video_set = self.get_object(name)
+        serializer = VideoSerializer(video_set, many=True)
+        return Response(serializer.data)
 
-    def post(self, request, name, *args, **kwargs):
+    def post(self, name, *args, **kwargs):
+        videoID_list = self.searchData(name)
+        for videoID in videoID_list:
+            request = {
+                'branch': name,
+                'video_id': videoID,
+                'level': "",
+                'runtime': 0,
+            }
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

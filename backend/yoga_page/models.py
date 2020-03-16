@@ -23,8 +23,8 @@ class Images(models.Model):
 class Video(models.Model):
     branch = models.ForeignKey(Branch, related_name='branch_videos', on_delete=models.CASCADE, default=None)
     video_id = models.CharField(max_length=100)
-    level = models.CharField(max_length=10)
-    runtime = models.IntegerField()
+    level = models.CharField(max_length=10, null=True)
+    runtime = models.IntegerField(null=True)
     
     def __str__(self):
         return self.branch.name
