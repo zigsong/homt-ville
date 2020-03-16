@@ -1,6 +1,7 @@
 from django.db import models
 class Branch(models.Model):
     name = models.CharField(max_length=100, unique=True, primary_key=True)
+    translation = models.CharField(max_length=100, default="")
     description = models.CharField(max_length=200)
     image = models.ImageField() # upload_to="yoga_image" (prefix to image url)
     # branch_images = models.ManyToManyField(Images, related_name='branch_images')
@@ -21,10 +22,10 @@ class Images(models.Model):
 
 class Video(models.Model):
     branch = models.ForeignKey(Branch, related_name='branch_videos', on_delete=models.CASCADE, default=None)
-    url = models.CharField(max_length=100)
+    video_id = models.CharField(max_length=100)
     level = models.CharField(max_length=10)
     runtime = models.IntegerField()
     
     def __str__(self):
-        return self.branch
+        return self.branch.name
 

@@ -7,6 +7,7 @@ from .models import Branch, Images, Video
 from .serializers import BranchSerializer, ImagesSerializer, VideoSerializer
 from django.http import Http404
 from django.http.response import JsonResponse
+import requests
 # POST는 서버(admin)으로만 진행
 class BranchList(APIView):
     def post(self, request, format=None):
@@ -25,54 +26,6 @@ class BranchList(APIView):
         # context={'request': request}를 넣으면 return하는 images 필드의 값 앞에 로컬 포트 주소가 붙음 
         return Response(serializer.data)
 
-# def modify_input_for_multiple_files(branch, images):
-#     dict = {}
-#     dict['branch'] = branch
-#     dict['images'] = images
-#     return dict
-class ImagesView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
-    # lookup_field = 'slug'
-    # serializer_class = ImagesSerializer
-
-    def get_object(self, name):
-        try:
-            return Images.objects.filter(branch=name)
-        except Images.DoesNotExist:
-            raise Http404
-
-    def get(self, request, name):
-        # image_set = self.get_object(name)
-        image_set = Images.objects.filter(branch=name) # image_set 두 방법 모두 가능
-        serializer = ImagesSerializer(image_set, many=True)
-        return Response(serializer.data)
-        # JsonResponse를 쓰고 인자로 'safe=False' 넣어줄 수 있음
-    
-    # post만 안 되는 중(admin으로 넣고 있음)
-    def post(self, request, name, *args, **kwargs):
-        # serializer = ImagesSerializer(request.data)
-        # branch = request.data['branch']
-        branch = Branch.objects.get(name=name)
-        # branch = self.get_object(name) 
-        # images = dict((request.data).lists())['images']
-        images = request.FILES
-        flag = 1
-        arr = []
-        # for image in images:
-        #     modified_data = modify_input_for_multiple_files(branch, image)
-            
-        #     file_serializer = ImagesSerializer(data=modified_data)
-        #     if file_serializer.is_valid():
-        #         file_serializer.save()
-        #         arr.append(file_serializer.data)
-        #     else:
-        #         flag = 0
-        
-        # if flag == 1:
-        #     return Response(arr, status=status.HTTP_201_CREATED)
-        # else:
-        #     return Response(arr, status=status.HTTP_400_BAD_REQUEST)
-        
 class BranchDetail(APIView):
     def get_object(self, name): # request도 인자로?
         try:
@@ -107,7 +60,33 @@ class BranchDetail(APIView):
         branch.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class VideoList(APIView):
+class ImagesView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    # lookup_field = 'slug'
+    # serializer_class = ImagesSerializer
+
+    def get_object(self, name):
+        try:
+            return Images.objects.filter(branch=name)
+        except Images.DoesNotExist:
+            raise Http404
+
+    def get(self, request, name):
+        # image_set = self.get_object(name)
+        image_set = Images.objects.filter(branch=name) # image_set 두 방법 모두 가능
+        serializer = ImagesSerializer(image_set, many=True)
+        return Response(serializer.data)
+        # JsonResponse를 쓰고 인자로 'safe=False' 넣어줄 수 있음
+    
+    # post만 안 되는 중(admin으로 넣고 있음)
+    def post(self, request, name, *args, **kwargs):
+        branch = Branch.objects.get(name=name)
+        images = request.FILES
+        flag = 1
+        arr = []
+        
+
+class VideoList(APIView):        
 
     def get_object(self, name):
         try:
@@ -115,12 +94,25 @@ class VideoList(APIView):
         except Video.DoesNotExist:
             raise Http404
 
-    def get(self, request, name, format=None): # name을 요가 이름으로 바꾸기
-        queryset = Video.objects.all()
-        serializer = VideoSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def fetchData(self, name):
+        # YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
+        branch = Branch.objects.get(name=name)
+        searchkw = branch.translation
+        API_KEY = 'AIzaSyBpu12_h2o-Rk8-W29YXJt4xyuA2UGJc3Q'
+        response = requests.get(
+            'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
+            %(branch.translation, API_KEY)
+        )
+        videoData = response.json()
+        return videoData
 
-    def post(self, request, format=None):
+    def get(self, request, name, format=None): # name을 요가 이름으로 바꾸기
+        queryset = self.fetchData(name)
+        # serializer = VideoSerializer(queryset, many=True)
+        # return Response(serializer.data)
+        return queryset
+
+    def post(self, request, name, *args, **kwargs):
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

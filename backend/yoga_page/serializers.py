@@ -9,14 +9,17 @@ class ImagesSerializer(serializers.ModelSerializer):
         #     'url': {'lookup_field': 'slug'}
         # }
         
-class BranchSerializer(serializers.ModelSerializer): 
-    branch_images = ImagesSerializer(many=True, read_only=True)
-    class Meta:
-        model = Branch
-        # fields = '__all__'
-        fields = ['name', 'description', 'image', 'branch_images', ]
-       
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = '__all__'
+        fields = ['video_id', 'level', 'runtime',]
+
+class BranchSerializer(serializers.ModelSerializer): 
+    branch_images = ImagesSerializer(many=True, read_only=True)
+    branch_videos = VideoSerializer(many=True, read_only=True)
+    class Meta:
+        model = Branch
+        # fields = '__all__'
+        fields = ['name', 'translation', 'description', 'image', 'branch_images', 'branch_videos']
+       
+
