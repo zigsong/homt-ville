@@ -30,43 +30,14 @@ export default function YogaCarousel({ images }: YogaCarouselProps) {
               alt="slide"
               style={{ width: '470px' }}
             />
-            <Carousel.Caption>
+            {/* <Carousel.Caption>
               <h3>slide label</h3>
               <p>why why why why why?</p>
-            </Carousel.Caption>
+            </Carousel.Caption> */}
           </Carousel.Item>
           )
         }
         
-        
-        {/* <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={`${IMAGE_URL}/${images}`}   
-            alt="Second slide"
-            style={{ width: '470px' }}
-          />
-  
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={`${IMAGE_URL}/${images}`}   
-            alt="Third slide"
-            style={{ width: '470px' }}
-          />
-  
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item> */}
       </Carousel>
     );
 }

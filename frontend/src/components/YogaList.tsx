@@ -59,7 +59,7 @@ export default function YogaList() {
         <Fragment>
             <CardContainer>
             {dataSet.map(yoga =>             
-                <Card className={classes.root} style={{ margin: 20, flexShrink: 0 }}>
+                <Card className={classes.root} style={{ width: '300px', margin: 20, flexShrink: 0 }}>
                     <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>
                         {
                             // dataSet ? 
@@ -116,5 +116,6 @@ const ButtonContainer = styled.div`
 const CardContainer = styled.div`
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    flex-wrap: wrap;
+    // overflow: scroll;
 `
