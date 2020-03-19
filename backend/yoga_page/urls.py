@@ -11,5 +11,6 @@ urlpatterns = [
     path('<slug:name>/', views.BranchDetail.as_view()), # request 함수에 name field를 넣어야 함
     path('<slug:name>/images/', views.ImagesView.as_view()),
     path('<slug:name>/videos/', views.VideoList.as_view()),
+    path('<slug:name>/videos/get_youtube_data/', views.get_youtube_data),
 ] 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

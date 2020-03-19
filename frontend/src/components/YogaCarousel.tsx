@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel'
-// import RBCarousel from "react-bootstrap-carousel";
-// import { Row, Col, Button, ButtonGroup } from "./bootstrap-component.jsx";
-// import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
 import { MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer } from
 "mdbreact";
 interface YogaCarouselProps {
@@ -21,7 +18,7 @@ export default function YogaCarousel({ images }: YogaCarouselProps) {
     };
   
     return (
-      <Carousel activeIndex={0} indicators={true} slide={true} onSelect={handleSelect}>
+      <Carousel activeIndex={index} indicators={true} slide={true} onSelect={handleSelect}>
         {images.map((image: any) => 
           <Carousel.Item>
             <img

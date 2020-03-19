@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser # 추가 for Images
@@ -8,6 +9,7 @@ from .serializers import BranchSerializer, ImagesSerializer, VideoSerializer
 from django.http import Http404
 from django.http.response import JsonResponse
 import requests
+import os
 # POST는 서버(admin)으로만 진행
 class BranchList(APIView):
     def post(self, request, format=None):
@@ -84,6 +86,23 @@ class ImagesView(APIView):
         images = request.FILES
         flag = 1
         arr = []
+
+@api_view(('GET',)) # 될 수도 있는데 지금은 usageLimit
+def get_youtube_data(request, name): # request에 branch name이라도 넣어주기?
+    if request.method == 'GET':
+        branch = Branch.objects.get(name=name)
+        searchkw = branch.translation
+        API_KEY = os.environ.get('API_KEY')
+        response = requests.get(
+            'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
+            %(branch.translation, API_KEY)
+        )
+        videoData = response.json()
+        videoID_list = []
+        # for item in videoData.get('items'):
+        #     videoID_list.append(item['id']['videoId'])
+        # return videoID_list # list로 반환됨 
+        return Response(videoData, status=status.HTTP_201_CREATED)
 
 class VideoList(APIView):        
 
