@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +25,10 @@ MEDIA_URL = 'media/' # 추가
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&)c_#8m!(reke%rp99%mc59i$=yr^ixo+$=*51m(_t#m6z4rpn'
+
+load_dotenv()
+
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser # 추가 for Images
@@ -10,6 +10,7 @@ from django.http import Http404
 from django.http.response import JsonResponse
 import requests
 import os
+from django.conf import settings
 # POST는 서버(admin)으로만 진행
 class BranchList(APIView):
     def post(self, request, format=None):
@@ -92,17 +93,20 @@ def get_youtube_data(request, name): # request에 branch name이라도 넣어주
     if request.method == 'GET':
         branch = Branch.objects.get(name=name)
         searchkw = branch.translation
-        API_KEY = os.environ.get('API_KEY')
-        response = requests.get(
-            'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
-            %(branch.translation, API_KEY)
-        )
-        videoData = response.json()
-        videoID_list = []
-        # for item in videoData.get('items'):
-        #     videoID_list.append(item['id']['videoId'])
-        # return videoID_list # list로 반환됨 
-        return Response(videoData, status=status.HTTP_201_CREATED)
+        API_KEY = os.environ.get("YOUTUBE_API_KEY")
+        print(API_KEY)
+    
+        # response = requests.get(
+        #     'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
+        #     %(branch.translation, API_KEY)
+        # )
+        # videoData = response.json()
+        # # print("result: " + videoData)
+        # videoID_list = []
+        # # for item in videoData.get('items'):
+        # #     videoID_list.append(item['id']['videoId'])
+        # # return videoID_list # list로 반환됨 
+        return Response("test") # status 201?
 
 class VideoList(APIView):        
 
@@ -116,7 +120,8 @@ class VideoList(APIView):
         # YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
         branch = Branch.objects.get(name=name)
         searchkw = branch.translation
-        API_KEY = os.environ.get('API_KEY')
+        API_KEY = os.getenv("YOUTUBE_API_KEY")
+        print(API_KEY)
         response = requests.get(
             'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
             %(branch.translation, API_KEY)

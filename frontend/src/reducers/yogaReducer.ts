@@ -5,7 +5,7 @@ const initialState: YogaList = {
     yogas: [],
 };
 
-export function yogaReducer(state = initialState, action: YogaActionTypes): YogaList {
+function yogaReducer(state = initialState, action: YogaActionTypes): YogaList {
     switch(action.type) {
         case GET_LIST:
             return {
@@ -14,7 +14,7 @@ export function yogaReducer(state = initialState, action: YogaActionTypes): Yoga
             }
         // case REQUEST_BRANCH:
         //     return {
-        //         ...state,
+        //         ...state,a
         //         payload: 
         //     };
         default:

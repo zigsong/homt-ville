@@ -4,7 +4,6 @@ import { RootState } from '../reducers/index';
 import { ThunkAction } from 'redux-thunk';
 import { Yoga, YogaList, REQUEST_LIST, REQUEST_BRANCH, GET_LIST, YogaActionTypes } from './types';
 
-
 const API_URL = 'http://127.0.0.1:8000'
 
 export const requestList = (): ThunkAction<void, RootState, unknown, Action<string>> => 

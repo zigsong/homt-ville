@@ -4,6 +4,7 @@ class Branch(models.Model):
     translation = models.CharField(max_length=100, default="")
     description = models.CharField(max_length=200)
     image = models.ImageField() # upload_to="yoga_image" (prefix to image url)
+    # branch_videos = models.ManyToManyField(Images, related_name='branch_images')
     # branch_images = models.ManyToManyField(Images, related_name='branch_images')
 
     def __str__(self):
