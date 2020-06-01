@@ -1,5 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, RouteComponentProps } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../reducers/index';
+import { requestVideos } from '../actions/videoAction';
 import axios from 'axios';
 import BaseLayout from './BaseLayout';
 import { Select } from 'antd';
@@ -10,27 +13,28 @@ interface YogaPageProps {
 }
 
 export default function YogaPage({ match }: YogaPageProps) {
+    const videoData = useSelector((state: RootState) => state.videoReducer.videos)
+    const dispatch = useDispatch();
+
     const [isLoading, setIsLoading] = useState(false);
     const [yogaData, setYogaData] = useState(null || {});
-    const FETCH_URL = 'http://127.0.0.1:8000/yoga';
-    const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search';
-    const { Option } = Select;
-
-    const fetchData = () => {
-        axios.get(`${FETCH_URL}/${match.params.branch}`)
-        .then(response => setYogaData(response.data))
-        .catch(error => console.log(error.response));
-    }
+    const [videoList, setVideoList] = useState([]);
     
-    useEffect(() => {
-        fetchData();
-        console.log('video page');
-    }, []);
+    const { Option } = Select;
 
     const handleChange = (value: any) => {
         console.log(`selected ${value}`);
-    }
-      
+    };
+
+    const updateVideos = async () => {
+        // axios.get(`http://127.0.0.1:8000/yoga/${match.params.branch}/videos/get_youtube_data/`)
+        // .then(response => {
+        //     setVideoList(response.data);
+        // });
+        dispatch(requestVideos(match.params.branch));
+        console.log(videoData);
+    };
+
     return (
         <Fragment>
             <div>Yoga Video Page</div>
@@ -51,15 +55,19 @@ export default function YogaPage({ match }: YogaPageProps) {
                     <Option value="medium">15~30분</Option>
                     <Option value="long">30분 이상</Option>
                 </Select>
+                <button onClick={updateVideos}>비디오 업데이트</button>
             </div>
-            <iframe
-                width="560"
-                height="315" 
-                src="https://www.youtube.com/embed/pD9U3jTIzkY" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen>
-            </iframe>
+            { videoList.map(videoId => 
+                <iframe
+                    width="560"
+                    height="315" 
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen>
+                </iframe>
+            )}
+            
         
         </Fragment>
     )

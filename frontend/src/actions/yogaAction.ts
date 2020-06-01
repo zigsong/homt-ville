@@ -4,7 +4,7 @@ import { RootState } from '../reducers/index';
 import { ThunkAction } from 'redux-thunk';
 import { Yoga, YogaList, REQUEST_LIST, REQUEST_BRANCH, GET_LIST, YogaActionTypes } from './types';
 
-const API_URL = 'http://127.0.0.1:8000'
+// const API_URL = 'http://127.0.0.1:8000'
 
 export const requestList = (): ThunkAction<void, RootState, unknown, Action<string>> => 
     dispatch => {
@@ -15,7 +15,7 @@ export const requestList = (): ThunkAction<void, RootState, unknown, Action<stri
             .catch(error => console.log(error.response))
     }
 
-export function getList(yogas: YogaList): YogaActionTypes {
+export const getList = (yogas: YogaList): YogaActionTypes => {
     return {
         type: GET_LIST,
         payload: yogas
@@ -30,18 +30,6 @@ export function requestBranch(name: string): YogaActionTypes {
         }
     }
 }
-    
-// export const getList = (list: YogaList) => {
-//     return {
-//         type: GET_LIST,
-//         payload: list
-//     }
-// }
-
-// export const requestList = () => ({
-//     type: REQUEST_LIST,
-//     payload: []
-// });
 
 // ReturnType: 함수에서 반환하는 타입을 가져올 수 있게 해주는 유틸
 type YogaAction = 

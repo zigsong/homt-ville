@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import yogaReducer from '../reducers/yogaReducer';
+import videoReducer from '../reducers/videoReducer';
 
 const rootReducer = combineReducers({
-    yogaReducer
+    yogaReducer,
+    videoReducer
 });
 
 export default rootReducer;

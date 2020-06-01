@@ -11,22 +11,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 추가
 
-MEDIA_URL = 'media/' # 추가 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&)c_#8m!(reke%rp99%mc59i$=yr^ixo+$=*51m(_t#m6z4rpn'
-
-load_dotenv()
 
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
@@ -51,9 +46,9 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer', # when calling API, only reuturns JSON(rather than Web UI)
+    )
 }
 
 MIDDLEWARE = [
@@ -68,9 +63,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost:3000/'
-# )
 
 ROOT_URLCONF = 'homt_ville.urls'
 
@@ -126,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'UTC'
 
@@ -140,10 +132,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'), 
+    os.path.join(BASE_DIR, 'static'), 
+    os.path.join(BASE_DIR, 'yoga_page', 'static'), 
+    # os.path.join(BASE_DIR, 'pilates_page', 'static'), 
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'yoga_pate', 'static')
+SASS_OUTPUT_STYLE = 'compact'

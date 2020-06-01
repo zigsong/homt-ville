@@ -1,22 +1,16 @@
-import { Yoga, YogaList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, YogaActionTypes } from '../actions/types';
-import { object } from 'prop-types';
+import { Yoga, YogaList, VideoList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, YogaActionTypes } from '../actions/types';
 
-const initialState: YogaList = {
+const yogaState: YogaList = {
     yogas: [],
 };
 
-function yogaReducer(state = initialState, action: YogaActionTypes): YogaList {
+function yogaReducer(state = yogaState, action: YogaActionTypes): YogaList {
     switch(action.type) {
         case GET_LIST:
             return {
                 ...state,
                 yogas: action.payload
             }
-        // case REQUEST_BRANCH:
-        //     return {
-        //         ...state,a
-        //         payload: 
-        //     };
         default:
             return state;
     }

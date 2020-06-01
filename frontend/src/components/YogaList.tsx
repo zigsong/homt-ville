@@ -42,7 +42,8 @@ export default function YogaList() {
 
     useEffect(() => {
         dispatch(requestList());
-        dataSet.map(yoga => console.log(yoga.name, yoga.image));
+        // dataSet.map(yoga => console.log(yoga.name, yoga.image));
+        // console.log(dataSet);
         console.log('console working')
     }, [])
 
