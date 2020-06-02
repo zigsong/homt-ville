@@ -1,30 +1,36 @@
-export const REQUEST_LIST = 'yogaAction/REQUEST_LIST' as const; // as const 생략?
-export const GET_LIST = 'yogaAction/GET_LIST' as const; 
-export const REQUEST_BRANCH = 'yogaAction/REQUEST_BRANCH' as const;
-export const GET_BRANCH = 'yogaAction/GET_BRANCH' as const;
-export const UPDATE_VIDEO = 'yogaAction/UPDATE_VIDEO';
+export const REQUEST_LIST = 'yogaAction/REQUEST_LIST'
+export const GET_LIST = 'yogaAction/GET_LIST'
+export const REQUEST_BRANCH = 'yogaAction/REQUEST_BRANCH'
+export const GET_BRANCH = 'yogaAction/GET_BRANCH'
+export const REQUEST_UPDATE = 'yogaAction/REQUEST_UPDATE'
+export const UPDATE_VIDEO = 'yogaAction/UPDATE_VIDEO'
 
-export interface Yoga {
-    // id: number,
+export interface Branch {
     name: string,
+    translation: string,
     description: string,
-    // images: object,
-    images: [],
-    videos: [],
+    images: any[],
+    videos: any[]
 }
 
 export interface YogaList {
-    // yogas: []
-    yogas: any
+    yogas: Branch[]
+}
+
+export interface Video {
+    id: number,
+    videoId: string,
+    level: number,
+    runtime: number    
+    branch: string,
 }
 
 export interface VideoList {
-    videos: []
+    videos: Video[]
 }
 
 interface RequestListAction {
     type: typeof REQUEST_LIST
-    // payload: YogaList
 }
 
 interface GetListAction {
@@ -34,14 +40,20 @@ interface GetListAction {
 
 interface RequestBranchAction {
     type: typeof REQUEST_BRANCH
-    meta: {
-        name: string
-    }
+    branch: string
 }
 
+interface GetBranchAction {
+    type: typeof GET_BRANCH
+    payload: Branch
+}
+
+interface RequestUpdateAction {
+    type: typeof REQUEST_UPDATE
+    branch: string
+}
 interface UpdateVideosAction {
     type: typeof UPDATE_VIDEO
-    // payload: Yoga["videos"]
     payload: VideoList
 }
 
@@ -49,5 +61,8 @@ export type YogaActionTypes =
     RequestListAction
     | GetListAction
     | RequestBranchAction
+    | GetBranchAction
+
+export type VideoActionTypes =
+    | RequestUpdateAction
     | UpdateVideosAction
-    

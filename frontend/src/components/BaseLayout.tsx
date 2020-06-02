@@ -15,8 +15,7 @@ const Title = styled.h1`
     text-align: center;
     font-weight: 600;
     color: #1f3b51;
-    // align-items: center;
-    margin: 10px 0px 10px 0px; // 땜빵
+    margin: 10px 0px 10px 0px; 
     cursor: pointer;
 `;
 
@@ -32,7 +31,6 @@ const useStyles = makeStyles({
 });
 
 interface LayoutProps extends RouteProps {
-  // component: React.ComponentType;
   component: () => any;
 }
 

@@ -6,10 +6,6 @@ import YogaList from './components/YogaList';
 import YogaPage from './components/YogaPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// interface AppProps {
-//   history: History
-// }
-
 function App() {
   return (
     <Router history={history}>

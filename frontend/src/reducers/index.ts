@@ -9,5 +9,5 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
-// 추후 컴포넌트에서 useSelector 이용 시 필요
+//컴포넌 트에서 useSelector 이용 시 사용
 export type RootState = ReturnType<typeof rootReducer>;

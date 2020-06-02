@@ -12,7 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import { Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Modal } from 'antd';
 import BaseLayout from './BaseLayout';
@@ -25,9 +24,7 @@ export default function YogaList() {
     const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
     
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalInfo, setModalInfo] = useState({ name: "", description: "" , images: [] })
-
-    const IMAGE_URL = 'http://127.0.0.1:8000' 
+    const [modalInfo, setModalInfo] = useState({ name: "", translate: "", description: "" , images: [] })
 
     const useStyles = makeStyles({
         root: {

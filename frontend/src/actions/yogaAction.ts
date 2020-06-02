@@ -1,40 +1,47 @@
 import axios from 'axios';
-import { Action } from 'redux';
+import { Action, ActionCreator, Dispatch } from 'redux';
 import { RootState } from '../reducers/index'; 
 import { ThunkAction } from 'redux-thunk';
-import { Yoga, YogaList, REQUEST_LIST, REQUEST_BRANCH, GET_LIST, YogaActionTypes } from './types';
+import { Branch, YogaList, Video, VideoList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, REQUEST_UPDATE, UPDATE_VIDEO, YogaActionTypes } from './types';
 
-// const API_URL = 'http://127.0.0.1:8000'
+const API_URL = 'http://127.0.0.1:8000'
 
-export const requestList = (): ThunkAction<void, RootState, unknown, Action<string>> => 
+export const requestList = (): ThunkAction<void, RootState, unknown, YogaActionTypes> => 
     dispatch => {
-        axios.get('http://127.0.0.1:8000/yoga')
+        axios.get(`${API_URL}/yoga`)
             .then(response => {
                 dispatch(getList(response.data));
             })
             .catch(error => console.log(error.response))
     }
 
-export const getList = (yogas: YogaList): YogaActionTypes => {
+export const getList = (yogaList: YogaList): YogaActionTypes => {
     return {
         type: GET_LIST,
-        payload: yogas
+        payload: yogaList
     }
 }
 
-export function requestBranch(name: string): YogaActionTypes {
+export const requestBranch = (branch: string): ThunkAction<void, RootState, unknown, YogaActionTypes> => 
+    dispatch => {
+        axios.get(`${API_URL}/yoga/${branch}`)
+            .then(response => {
+                dispatch(getBranch(response.data));
+            })
+            .catch(error => console.log(error.response))
+    }
+
+export const getBranch = (branch: Branch): YogaActionTypes => {
     return {
-        type: REQUEST_BRANCH,
-        meta: {
-            name
-        }
-    }
+        type: GET_BRANCH,
+        payload: branch
+    }               
 }
 
-// ReturnType: 함수에서 반환하는 타입을 가져올 수 있게 해주는 유틸
-type YogaAction = 
-    | ReturnType<typeof requestList>
-    | ReturnType<typeof requestBranch>;
+
+// type YogaAction = 
+//     | ReturnType<typeof requestList>
+//     | ReturnType<typeof requestBranch>;
 
 // export default YogaAction;
 
