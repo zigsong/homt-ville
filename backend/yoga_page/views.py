@@ -16,17 +16,17 @@ import requests
 import os
 
 class BranchList(APIView):
+    def get(self, request, format=None):
+        queryset = Branch.objects.all()
+        serializer = BranchSerializer(queryset, many=True) # multiple branch model instances
+        return Response(serializer.data)
+
     def post(self, request, format=None):
         serializer = BranchSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        queryset = Branch.objects.all()
-        serializer = BranchSerializer(queryset, many=True) # multiple branch model instances
-        return Response(serializer.data)
 
 class BranchDetail(APIView):
     def get_object(self, name): 
@@ -53,7 +53,7 @@ class BranchDetail(APIView):
         branch.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class ImagesView(APIView):
+class ImageView(APIView):
     # parser_classes = (MultiPartParser, FormParser)
     def get_object(self, name):
         branch = Branch.objects.get(name=name)
@@ -68,7 +68,7 @@ class ImagesView(APIView):
         serializer = ImageSerializer(image_set, many=True)
         return Response(serializer.data)
     
-    def post(self, request, name, *args, **kwargs):
+    def post(self, request, name):
         branch = Branch.objects.get(name=name)
         images = request.FILES
 
@@ -79,54 +79,60 @@ class VideoList(APIView):
             return Video.objects.filter(branch=branch)
         except Video.DoesNotExist:
             raise Http404
-    
-    def searchData(self, name):
-        # YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search?part=id/&q=%s&key=%s'
-        branch = Branch.objects.get(name=name)
-        searchkw = branch.translation
-        API_KEY = os.getenv("YOUTUBE_API_KEY")
-        print(API_KEY)
-        response = requests.get(
-            'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
-            %(branch.translation, API_KEY)
-        )
-        videoData = response.json()
-        videoID_list = []
-        for item in videoData.get('items'):
-            videoID_list.append(item['id']['videoId'])
-        return videoID_list # list로 반환됨 
 
     def get(self, request, name, format=None):
         video_set = self.get_object(name)
         serializer = VideoSerializer(video_set, many=True)
         return Response(serializer.data)
 
-    def post(self, name, *args, **kwargs):
-        videoID_list = self.searchData(name)
-        for videoID in videoID_list:
-            request = {
-                'branch': name,
-                'video_id': videoID,
-                'level': "",
+    def post(self, request, name):
+        branch = Branch.objects.get(name=name)
+        API_KEY = settings.YOUTUBE_API_KEY
+        print(API_KEY)
+        response = requests.get(
+            'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=%s&key=%s'
+            %(branch.translation, API_KEY)
+        )
+        videoData = response.json()
+        newVideoList = []
+        for item in videoData.get('items'):
+            videoId = item['id']['videoId']
+            newVideo = {
+                'branch': branch,
+                'videoId': videoId,
+                'level': 1,
                 'runtime': 0,
             }
-        serializer = VideoSerializer(data=request.data)
+            newVideoList.append(newVideo)
+        serializer = VideoSerializer(data=newVideoList, many=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class VideoDetail(APIView):
+    def get_object(self, name):
+        branch = Branch.objects.get(name=name)
+        try:
+            return Video.objects.filter(branch=branch)
+        except Video.DoesNotExist:
+            raise Http404
+
+    def get(self, request, name, format=None):
+        video_set = self.get_object(name)
+        serializer = VideoSerializer(video_set, many=True)
+        return Response(serializer.data)
+
+    def put(self, request, name, format=None):
+        video = self.get_object(name)
+        serializer = VideoSerializer(video, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, name, format=None):
+        video = self.get_object(name)
+        video.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
-def get_youtube_data(request, name): 
-    branch = Branch.objects.get(name=name)
-    API_KEY = os.environ.get("YOUTUBE_API_KEY")    
-    response = requests.get(
-        'https://www.googleapis.com/youtube/v3/search?part=id&q=%s&key=%s'
-        %(branch.translation, API_KEY)
-    )
-    videoData = response.json()
-    videoID_list = []
-    for item in videoData.get('items'):
-        videoID_list.append(item['id']['videoId'])
-    # return videoID_list # list로 반환
-    return Response(videoID_list)
