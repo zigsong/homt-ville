@@ -24,7 +24,7 @@ export const updateVideos = (videoList: VideoList): VideoActionTypes => {
 
 
 type VideoAction = 
-    | ReturnType<typeof requestVideos>
+    | ReturnType<typeof requestUpdate>
     | ReturnType<typeof updateVideos>
 
 

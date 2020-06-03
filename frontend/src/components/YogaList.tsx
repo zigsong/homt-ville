@@ -1,9 +1,10 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import history from '../history';
 import { BrowserRouter as Router, Link, Route, RouteComponentProps, useHistory } from 'react-router-dom';
 import { RootState } from '../reducers/index';
 import { requestList } from '../actions/yogaAction';
-import history from '../history';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -12,16 +13,17 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import styled from 'styled-components';
 import { Modal } from 'antd';
+import styled from 'styled-components';
+
 import BaseLayout from './BaseLayout';
-import YogaModal from './YogaModal';
-import YogaCarousel from './YogaCarousel'
+// import YogaModal from './YogaModal';
+// import YogaCarousel from './YogaCarousel'
 
 export default function YogaList() {
     const yogaList = useSelector((state: RootState) => state.yogaReducer.yogas)
     const dispatch = useDispatch();
-    const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
+    // const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
     
     const [modalVisible, setModalVisible] = useState(false);
     const [modalInfo, setModalInfo] = useState({ name: "", translate: "", description: "" , images: [] })
@@ -39,24 +41,21 @@ export default function YogaList() {
 
     useEffect(() => {
         dispatch(requestList());
-        // dataSet.map(yoga => console.log(yoga.name, yoga.image));
-        // console.log(dataSet);
-        console.log('console working')
     }, [])
 
-    const cardClick = (name: string, description: string, images: []) => {
-        setModalVisible(true);
-        setModalInfo({
-            name: name,
-            description: description,
-            images: images, 
-        })
-    }
+    // const cardClick = (name: string, description: string, images: []) => {
+    //     setModalVisible(true);
+    //     setModalInfo({
+    //         name: name,
+    //         description: description,
+    //         images: images, 
+    //     })
+    // }
 
     return (
         <Fragment>
             <CardContainer>
-            {dataSet.map(yoga =>             
+            {/* {dataSet.map(yoga =>             
                 <Card className={classes.root} style={{ width: '300px', margin: 20, flexShrink: 0 }}>
                     <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>
                         {
@@ -87,10 +86,10 @@ export default function YogaList() {
                         </Button> 
                     </CardActions>
                 </Card>
-            )}
+            )} */}
             </CardContainer>
 
-            <div>
+            {/* <div>
                 <Modal
                     title={modalInfo.name}
                     centered
@@ -102,7 +101,7 @@ export default function YogaList() {
                 >
                     <YogaCarousel images={modalInfo.images}/>
                 </Modal>
-            </div>
+            </div> */}
         </Fragment>
     )
 }

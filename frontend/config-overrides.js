@@ -1,4 +1,5 @@
 const { override, fixBabelImports } = require('customize-cra');
+const CracoLessPlugin = require('craco-less');
 
 // module.exports = function override(config, env) {
 //     // do stuff with the webpack config...
@@ -10,5 +11,5 @@ module.exports = override(
         libraryName: 'antd',
         libraryDirectory: 'es',
         style: 'css',
-    }),
+    })
 );
