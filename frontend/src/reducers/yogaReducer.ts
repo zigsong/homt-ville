@@ -1,15 +1,12 @@
 import { Branch, YogaList, Video, VideoList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, REQUEST_UPDATE, UPDATE_VIDEO, YogaActionTypes } from '../actions/types';
 
-const yogaState: YogaList = {
-    yogas: []
-};
+const yogaState: Branch[] = [];
 
-
-function yogaReducer(state = yogaState, action: YogaActionTypes): YogaList {
+function yogaReducer(state = yogaState, action: YogaActionTypes): Branch[] {
     switch(action.type) {
         case GET_LIST:
             return {
-                yogas: [...state.yogas, ...action.payload.yogas]
+                ...action.payload
             }
         default:
             return state;

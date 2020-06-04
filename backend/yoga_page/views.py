@@ -54,7 +54,8 @@ class BranchDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ImageView(APIView):
-    # parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (MultiPartParser, FormParser)
+    
     def get_object(self, name):
         branch = Branch.objects.get(name=name)
         try:

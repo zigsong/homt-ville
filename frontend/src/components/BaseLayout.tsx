@@ -75,7 +75,7 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Zig</Breadcrumb.Item> 
           </Breadcrumb>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: '100%' }}>
             { contentComponent }
           </div>
         </Content>

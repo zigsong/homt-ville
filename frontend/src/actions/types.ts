@@ -35,7 +35,7 @@ interface RequestListAction {
 
 interface GetListAction {
     type: typeof GET_LIST
-    payload: YogaList
+    payload: Branch[]
 }
 
 interface RequestBranchAction {

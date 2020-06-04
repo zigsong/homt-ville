@@ -14,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
 import { Modal } from 'antd';
 import styled from 'styled-components';
 
@@ -22,9 +23,9 @@ import BaseLayout from './BaseLayout';
 // import YogaCarousel from './YogaCarousel'
 
 export default function YogaList() {
-    const yogaList = useSelector((state: RootState) => state.yogaReducer.yogas)
+    const yogaList = useSelector((state: RootState) => state.yogaReducer);
+    const dataSet = Object.values(yogaList);
     const dispatch = useDispatch();
-    // const dataSet = Object.keys(yogaList).map(yoga => yogaList[yoga]);
     
     const [modalVisible, setModalVisible] = useState(false);
     const [modalInfo, setModalInfo] = useState({ name: "", translate: "", description: "" , images: [] })
@@ -37,24 +38,17 @@ export default function YogaList() {
           height: 140,
         },
     });
-
-    const classes = useStyles()
-
-    const API_URL = 'http://127.0.0.1:8000'
-
-    const getYogaData = () => {
-        axios.get(`${API_URL}/yoga`)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => console.log(error.response))
-    }
+    
+    const classes = useStyles();
 
     useEffect(() => {
-        // getYogaData();
         dispatch(requestList());
-        console.log(yogaList);
     }, [])
+
+    useEffect(() => {
+        // console.log(dataSet);
+        // dataSet.map(branch => console.log(branch.images[0].image));
+    }, [yogaList])
 
     // const cardClick = (name: string, description: string, images: []) => {
     //     setModalVisible(true);
@@ -65,43 +59,33 @@ export default function YogaList() {
     //     })
     // }
 
+    const IMAGE_URL = 'http://127.0.0.1:8000'; 
+
     return (
         <Fragment>
-            <div>This is YogaList page</div>
-            <CardContainer>
-            {/* {dataSet.map(yoga =>             
-                <Card className={classes.root} style={{ width: '300px', margin: 20, flexShrink: 0 }}>
-                    <CardActionArea onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>
-                        {
-                            // dataSet ? 
-                                <CardMedia
-                                className={classes.media}
-                                image={`${IMAGE_URL}/${yoga.image}`}
-                                title="Yoga Image"
-                                />
-                            // : 
-                            // <Spinner animation="border" />
-                        }
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                            {yoga.name}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                            {yoga.description}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions style={{ display: 'flex', justifyContent: 'flex-end'}}>
-                        <Button size="small" color="primary" style={{ flex: 'none'}}>
-                            Like
-                        </Button>
-                        <Button size="small" color="primary" style={{ flex: 'none' }} onClick={() => cardClick(yoga.name, yoga.description, yoga.branch_images.map((item: any) => item.images))}>                          
-                            LET'S GO
-                        </Button> 
-                    </CardActions>
+            {dataSet.map(branch => 
+                <Card className={classes.root}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image={`${IMAGE_URL}${branch.images[0].image}`}
+                    />
+                    <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {branch.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {branch.description}
+                    </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary">
+                    LET'S GO
+                    </Button>
+                </CardActions>
                 </Card>
-            )} */}
-            </CardContainer>
+            )}
 
             {/* <div>
                 <Modal

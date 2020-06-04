@@ -11,19 +11,18 @@ export const requestList = (): ThunkAction<void, RootState, unknown, Action<stri
         axios.get(`${API_URL}/yoga`)
             .then(response => {
                 dispatch(getList(response.data));
-                console.log(response.data);
             })
             .catch(error => console.log(error.response))
     }
 
-export const getList = (yogaList: YogaList): YogaActionTypes => {
+export const getList = (yogaList: Branch[]): YogaActionTypes => {
     return {
         type: GET_LIST,
         payload: yogaList
     }
 }
 
-export const requestBranch = (branch: string): ThunkAction<void, RootState, unknown, YogaActionTypes> => 
+export const requestBranch = (branch: string): ThunkAction<void, RootState, unknown, Action<string>> => 
     dispatch => {
         axios.get(`${API_URL}/yoga/${branch}`)
             .then(response => {
