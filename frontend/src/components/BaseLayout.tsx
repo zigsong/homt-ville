@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Route, RouteProps } from 'react-router';
-import history from '../history';
+import { Route, RouteProps, useHistory } from 'react-router';
+import { Link } from "react-router-dom";
+// import history from '../history';
 
 import { Layout, Menu, Breadcrumb } from 'antd';
 import {
@@ -21,19 +22,18 @@ import YogaList from './YogaList';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-const YogaLogo = styled.img`
+const Logo = styled.img`
   width: 30px;
   height: auto;
   margin-right: 20px;
 `
 
-const PilatesLogo = styled.img`
-  width: 30px;
-  height: auto;
-  margin-right: 20px;
-`
+interface LayoutProps {
+  contentComponent?: React.ReactNode;
+}
 
-export default function BaseLayout() {
+export default function BaseLayout({ contentComponent }: LayoutProps) {
+  const history = useHistory()
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = () => {
@@ -45,21 +45,14 @@ export default function BaseLayout() {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          {/* <Menu.Item key="1">
-            Option 1
-          </Menu.Item> */}
-          {/* <Menu.Item key="2" >
-            Option 2
-          </Menu.Item> */}
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['sub1', 'sub2']} >
           <img src={logo} width="30px" height="auto" style={{ display: "block", margin: "auto", marginTop: "15px", marginBottom: "15px"  }}/>
-          <SubMenu key="sub1" icon={<YogaLogo src={yoga} />} title="Yoga">
-            
-            <Menu.Item key="1">Videos</Menu.Item>
-            <Menu.Item key="2">Community</Menu.Item>
+          <SubMenu key="sub1" icon={<Logo src={yoga} />} title="Yoga" >
+            <Menu.Item key="1" onClick={() => history.push('/yoga/videos')}>Videos</Menu.Item>
+            <Menu.Item key="2" onClick={() => history.push('/yoga/community')}>Community</Menu.Item>
             <Menu.Item key="3">Market</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<PilatesLogo src={pilates} />} title="Pilates">
+          <SubMenu key="sub2" icon={<Logo src={pilates} />} title="Pilates">
             <Menu.Item key="4">Videos</Menu.Item>
             <Menu.Item key="5">Community</Menu.Item>
             <Menu.Item key="6">Market</Menu.Item>
@@ -73,11 +66,11 @@ export default function BaseLayout() {
 
         <Content className="site-content" style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
-            {/* <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Zig</Breadcrumb.Item> 
           </Breadcrumb>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            Yoga Videos coming soooooon!!!
+            { contentComponent }
           </div>
         </Content>
       </Layout>

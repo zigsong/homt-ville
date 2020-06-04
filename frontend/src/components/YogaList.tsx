@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import { BrowserRouter as Router, Link, Route, RouteComponentProps, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import history from '../history';
-import { BrowserRouter as Router, Link, Route, RouteComponentProps, useHistory } from 'react-router-dom';
 import { RootState } from '../reducers/index';
 import { requestList } from '../actions/yogaAction';
 
@@ -41,6 +41,7 @@ export default function YogaList() {
 
     useEffect(() => {
         dispatch(requestList());
+        console.log(yogaList);
     }, [])
 
     // const cardClick = (name: string, description: string, images: []) => {
@@ -54,6 +55,7 @@ export default function YogaList() {
 
     return (
         <Fragment>
+            <div>This is YogaList page</div>
             <CardContainer>
             {/* {dataSet.map(yoga =>             
                 <Card className={classes.root} style={{ width: '300px', margin: 20, flexShrink: 0 }}>
