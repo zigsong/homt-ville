@@ -16,6 +16,7 @@ import './stylesheets/BaseLayout.css';
 import logo from '../assets/homt1.png';
 import yoga from '../assets/yoga_white.png';
 import pilates from '../assets/pilates_white.png';
+import weight from '../assets/weight_white.png';
 import styled from 'styled-components';
 import YogaList from './YogaList';
 
@@ -37,7 +38,7 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = () => {
-    console.log(collapsed);
+    // console.log(collapsed);
     setCollapsed(!collapsed);
   };
 
@@ -45,7 +46,7 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['sub1', 'sub2']} >
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['sub1']} >
           <img src={logo} width="30px" height="auto" style={{ display: "block", margin: "auto", marginTop: "15px", marginBottom: "15px"  }}/>
           <SubMenu key="sub1" icon={<Logo src={yoga} />} title="Yoga" >
             <Menu.Item key="1" onClick={() => history.push('/yoga/videos')}>Videos</Menu.Item>
@@ -56,6 +57,11 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
             <Menu.Item key="4">Videos</Menu.Item>
             <Menu.Item key="5">Community</Menu.Item>
             <Menu.Item key="6">Market</Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub3" icon={<Logo src={weight} />} title="Weight">
+            <Menu.Item key="7">Videos</Menu.Item>
+            <Menu.Item key="8">Community</Menu.Item>
+            <Menu.Item key="9">Market</Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>

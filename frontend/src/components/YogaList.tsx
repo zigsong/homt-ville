@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { BrowserRouter as Router, Link, Route, RouteComponentProps, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import history from '../history';
+import axios from 'axios';
 import { RootState } from '../reducers/index';
 import { requestList } from '../actions/yogaAction';
 
@@ -39,7 +40,18 @@ export default function YogaList() {
 
     const classes = useStyles()
 
+    const API_URL = 'http://127.0.0.1:8000'
+
+    const getYogaData = () => {
+        axios.get(`${API_URL}/yoga`)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => console.log(error.response))
+    }
+
     useEffect(() => {
+        // getYogaData();
         dispatch(requestList());
         console.log(yogaList);
     }, [])

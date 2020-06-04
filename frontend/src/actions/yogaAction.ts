@@ -1,16 +1,17 @@
 import axios from 'axios';
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { RootState } from '../reducers/index'; 
 import { ThunkAction } from 'redux-thunk';
 import { Branch, YogaList, Video, VideoList, REQUEST_LIST, GET_LIST, REQUEST_BRANCH, GET_BRANCH, REQUEST_UPDATE, UPDATE_VIDEO, YogaActionTypes } from './types';
 
 const API_URL = 'http://127.0.0.1:8000'
 
-export const requestList = (): ThunkAction<void, RootState, unknown, YogaActionTypes> => 
+export const requestList = (): ThunkAction<void, RootState, unknown, Action<string>> => 
     dispatch => {
         axios.get(`${API_URL}/yoga`)
             .then(response => {
                 dispatch(getList(response.data));
+                console.log(response.data);
             })
             .catch(error => console.log(error.response))
     }

@@ -5,7 +5,6 @@ const yogaState: YogaList = {
 };
 
 
-
 function yogaReducer(state = yogaState, action: YogaActionTypes): YogaList {
     switch(action.type) {
         case GET_LIST:
