@@ -30,8 +30,8 @@ interface IBranch {
 }
 
 export default function YogaList() {
-    const yogaList = useSelector((state: RootState) => state.yogaReducer);
-    const dataSet = Object.values(yogaList);
+    const dataSet = useSelector((state: RootState) => state.yogaReducer);
+    const yogaList = Object.values(dataSet);
     const dispatch = useDispatch();
     
     const [modalOpen, setModalOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function YogaList() {
     useEffect(() => {
         // console.log(dataSet);
         // dataSet.map(branch => console.log(branch.images[0].image));
-    }, [yogaList])
+    }, [dataSet])
 
     const cardClick = (name: string, translation: string, description: string, images: object[]) => {
         setModalOpen(true);
@@ -72,7 +72,7 @@ export default function YogaList() {
     return (
         <Fragment>
             <CardContainer>
-            {dataSet.map(branch => 
+            {yogaList.map(branch => 
                 <Card className={classes.root} style={{ width: '450px', height: 'auto', margin: '10px' }}>
                 <CardActionArea>
                     <CardMedia
@@ -106,7 +106,7 @@ export default function YogaList() {
                     title={modalData.name}
                     centered
                     visible={modalOpen}
-                    onOk={() => history.push(`/yoga/${modalData.name}`)}
+                    onOk={() => history.push(`/yoga/${modalData.name}/videos`)}
                     okText="START"
                     onCancel={() => setModalOpen(false)}
                     style={{ width: '750px' }}
@@ -115,7 +115,7 @@ export default function YogaList() {
                     <h3>{ modalData.name }</h3>
                     <h4>{ modalData.translation }</h4>
                     <h5>{ modalData.description }</h5>
-                </Modal>
+                </Modal>    
             </div>
             </CardContainer>
         </Fragment>

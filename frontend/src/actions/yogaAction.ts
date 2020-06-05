@@ -24,17 +24,18 @@ export const getList = (yogaList: Branch[]): YogaActionTypes => {
 
 export const requestBranch = (branch: string): ThunkAction<void, RootState, unknown, Action<string>> => 
     dispatch => {
-        axios.get(`${API_URL}/yoga/${branch}`)
+        axios.get(`${API_URL}/yoga/${branch}/videos`)
             .then(response => {
                 dispatch(getBranch(response.data));
+                console.log(response.data);
             })
             .catch(error => console.log(error.response))
     }
 
-export const getBranch = (branch: Branch): YogaActionTypes => {
+export const getBranch = (videoList: Video[]): YogaActionTypes => {
     return {
         type: GET_BRANCH,
-        payload: branch
+        payload: videoList
     }               
 }
 

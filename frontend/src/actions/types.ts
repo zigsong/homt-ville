@@ -18,11 +18,11 @@ export interface YogaList {
 }
 
 export interface Video {
+    branch: string,
     id: number,
-    videoId: string,
     level: number,
     runtime: number    
-    branch: string,
+    videoId: string,
 }
 
 export interface VideoList {
@@ -45,7 +45,7 @@ interface RequestBranchAction {
 
 interface GetBranchAction {
     type: typeof GET_BRANCH
-    payload: Branch
+    payload: Video[]
 }
 
 interface RequestUpdateAction {

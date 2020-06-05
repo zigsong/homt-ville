@@ -49,7 +49,7 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['yoga']} >
           <img src={logo} width="30px" height="auto" style={{ display: "block", margin: "auto", marginTop: "15px", marginBottom: "15px"  }}/>
           <SubMenu key="yoga" icon={<Logo src={yoga} />} title="Yoga" >
-            <Menu.Item key="1" onClick={() => history.push('/yoga/videos')}>Videos</Menu.Item>
+            <Menu.Item key="1" onClick={() => history.push('/yoga')}>Videos</Menu.Item>
             <Menu.Item key="2" onClick={() => history.push('/yoga/community')}>Community</Menu.Item>
             <Menu.Item key="3">Market</Menu.Item>
           </SubMenu>
