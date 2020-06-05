@@ -14,10 +14,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
 import { Modal } from 'antd';
 import styled from 'styled-components';
 
+import './stylesheets/YogaList.css';
 import BaseLayout from './BaseLayout';
 // import YogaModal from './YogaModal';
 // import YogaCarousel from './YogaCarousel'
@@ -63,8 +63,9 @@ export default function YogaList() {
 
     return (
         <Fragment>
+            <CardContainer>
             {dataSet.map(branch => 
-                <Card className={classes.root}>
+                <Card className={classes.root} style={{ width: '450px', height: 'auto', margin: '10px' }}>
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
@@ -100,17 +101,13 @@ export default function YogaList() {
                     <YogaCarousel images={modalInfo.images}/>
                 </Modal>
             </div> */}
+            </CardContainer>
         </Fragment>
     )
 }
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`
 const CardContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    // overflow: scroll;
 `

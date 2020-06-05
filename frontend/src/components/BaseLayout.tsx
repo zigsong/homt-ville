@@ -46,19 +46,19 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['sub1']} >
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys={['yoga']} >
           <img src={logo} width="30px" height="auto" style={{ display: "block", margin: "auto", marginTop: "15px", marginBottom: "15px"  }}/>
-          <SubMenu key="sub1" icon={<Logo src={yoga} />} title="Yoga" >
+          <SubMenu key="yoga" icon={<Logo src={yoga} />} title="Yoga" >
             <Menu.Item key="1" onClick={() => history.push('/yoga/videos')}>Videos</Menu.Item>
             <Menu.Item key="2" onClick={() => history.push('/yoga/community')}>Community</Menu.Item>
             <Menu.Item key="3">Market</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<Logo src={pilates} />} title="Pilates">
+          <SubMenu key="pilates" icon={<Logo src={pilates} />} title="Pilates">
             <Menu.Item key="4">Videos</Menu.Item>
             <Menu.Item key="5">Community</Menu.Item>
             <Menu.Item key="6">Market</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub3" icon={<Logo src={weight} />} title="Weight">
+          <SubMenu key="weight" icon={<Logo src={weight} />} title="Weight">
             <Menu.Item key="7">Videos</Menu.Item>
             <Menu.Item key="8">Community</Menu.Item>
             <Menu.Item key="9">Market</Menu.Item>
@@ -75,7 +75,7 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Zig</Breadcrumb.Item> 
           </Breadcrumb>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: '100%' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: '100vh' }}>
             { contentComponent }
           </div>
         </Content>
