@@ -15,20 +15,27 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Modal } from 'antd';
+import { Carousel } from 'antd';
 import styled from 'styled-components';
 
 import './stylesheets/YogaList.css';
 import BaseLayout from './BaseLayout';
-// import YogaModal from './YogaModal';
-// import YogaCarousel from './YogaCarousel'
+import YogaCarousel from './YogaCarousel';
+
+interface IBranch {
+    name: string;
+    translation: string;
+    description: string;
+    images: object[];
+}
 
 export default function YogaList() {
     const yogaList = useSelector((state: RootState) => state.yogaReducer);
     const dataSet = Object.values(yogaList);
     const dispatch = useDispatch();
     
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modalInfo, setModalInfo] = useState({ name: "", translate: "", description: "" , images: [] })
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalData, setModalData] = useState<IBranch>({ name: "", translation: "", description: "", images: [] })
 
     const useStyles = makeStyles({
         root: {
@@ -50,14 +57,15 @@ export default function YogaList() {
         // dataSet.map(branch => console.log(branch.images[0].image));
     }, [yogaList])
 
-    // const cardClick = (name: string, description: string, images: []) => {
-    //     setModalVisible(true);
-    //     setModalInfo({
-    //         name: name,
-    //         description: description,
-    //         images: images, 
-    //     })
-    // }
+    const cardClick = (name: string, translation: string, description: string, images: object[]) => {
+        setModalOpen(true);
+        setModalData({
+            name: name,
+            translation: translation,
+            description: description,
+            images: images, 
+        })
+    }
 
     const IMAGE_URL = 'http://127.0.0.1:8000'; 
 
@@ -80,27 +88,35 @@ export default function YogaList() {
                     </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary">
-                    LET'S GO
+                <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button size="small" color="primary" onClick={() => cardClick(
+                        branch.name,
+                        branch.translation,
+                        branch.description,
+                        branch.images.map(item => item.image)
+                    )}>
+                        LET'S GO
                     </Button>
                 </CardActions>
                 </Card>
             )}
 
-            {/* <div>
+            <div>
                 <Modal
-                    title={modalInfo.name}
+                    title={modalData.name}
                     centered
-                    visible={modalVisible}
-                    onOk={() => history.push(`/yoga/${modalInfo.name}`)}
+                    visible={modalOpen}
+                    onOk={() => history.push(`/yoga/${modalData.name}`)}
                     okText="START"
-                    onCancel={() => setModalVisible(false)}
-                    style={{ width: '700px' }}
+                    onCancel={() => setModalOpen(false)}
+                    style={{ width: '750px' }}
                 >
-                    <YogaCarousel images={modalInfo.images}/>
+                    <YogaCarousel images={modalData.images}/>
+                    <h3>{ modalData.name }</h3>
+                    <h4>{ modalData.translation }</h4>
+                    <h5>{ modalData.description }</h5>
                 </Modal>
-            </div> */}
+            </div>
             </CardContainer>
         </Fragment>
     )
