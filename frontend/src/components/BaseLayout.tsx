@@ -66,8 +66,11 @@ export default function BaseLayout({ contentComponent }: LayoutProps) {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header className="site-layout-background" style={{ paddingRight: 20 }}>
+          <Link to="/signup" id="signup" >Sign Up</Link>
+          <Link to="/login" id="login" >Login</Link>
           <div className="title">HOMT VILLE</div>
+       
         </Header>
 
         <Content className="site-content" style={{ margin: '0 16px' }}>

@@ -6,29 +6,44 @@ import { RootState } from '../reducers/index';
 import { requestBranch } from '../actions/yogaAction';
 
 import styled from 'styled-components';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface YogaPageProps {
     branch: string;
 
 }
 
+const antIcon = <LoadingOutlined style={{ fontSize: 72, marginBottom: 20, }} spin />;
+
 function YogaPage({ match }: RouteComponentProps<YogaPageProps>) {
     const dataSet = useSelector((state: RootState) => state.branchReducer);
     const videoData = Object.values(dataSet);
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(requestBranch(match.params.branch));
     }, []);
 
+    // useEffect(() => {
+    //     console.log(videoData);
+    // }, [dataSet]);
+
     useEffect(() => {
-        console.log(videoData);
-    }, [dataSet]);
+        if(videoData.length === 10) {
+            setLoading(false);
+        }
+    })
 
     return (
         <Fragment>
-            {/* <div>Yoga Video Page</div> */}
-            {/* <div>branch: { match.params.branch }</div> */}
+        { loading ? 
+            <SpinContainer>
+                <Spin indicator={antIcon} />
+                <div>loading videos...</div>
+            </SpinContainer>
+            :
             <VideoContainer>
                 { videoData.map(video => 
                     <VideoBox>
@@ -43,6 +58,7 @@ function YogaPage({ match }: RouteComponentProps<YogaPageProps>) {
                     </VideoBox>
                 )}      
             </VideoContainer>
+        }
         </Fragment>
     )
 }
@@ -55,6 +71,13 @@ const VideoContainer = styled.div`
 
 const VideoBox = styled.div`
     margin: 30px;
+`
+
+const SpinContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
 `
 
 export default withRouter(YogaPage);

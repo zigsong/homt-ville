@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital@1&display=swap');
 
 #components-layout-demo-side .logo {
     height: 32px;
@@ -21,4 +22,18 @@
     margin-top: 10px;
     font-size: 45px;
 }
+
+#signup, #login {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    color: #050829;
+    float: right;
+    margin: 10px;
+    padding-top: 10px;
+}
+
+#signup:hover, #login:hover {
+    text-decoration: underline;
+}
+
 
