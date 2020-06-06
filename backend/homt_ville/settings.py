@@ -42,12 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'yoga_page',
+    'knox',
+    'accounts',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer', # when calling API, only reuturns JSON(rather than Web UI)
-    )
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "knox.auth.TokenAuthentication",
+    ),
 }
 
 MIDDLEWARE = [
